@@ -1,10 +1,6 @@
 {
-  "name": "meetreality",
+  "name": "meet-reality",
   "compatibility_date": "2026-01-25",
-  "pages_build_configuration": {
-    "build_command": "",
-    "destination_dir": "."
-  },
   "assets": {
     "directory": "."
   }
