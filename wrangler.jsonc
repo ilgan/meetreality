@@ -5,6 +5,12 @@
     "build_command": "",
     "destination_dir": "."
   },
+  "routes": [
+    {
+      "pattern": "meet-reality.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "."
   }
