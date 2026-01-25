@@ -1,0 +1,6 @@
+name = "meet-reality"
+type = "javascript"
+main = "index.html"
+
+[build]
+command = ""
