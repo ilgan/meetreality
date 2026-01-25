@@ -1,6 +1,3 @@
 name = "meet-reality"
-type = "javascript"
-main = "index.html"
+compatibility_date = "2026-01-25"
 
-[build]
-command = ""
