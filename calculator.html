@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Reality - Population Demographics Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        
+        <div class="lang-toggle">
+            <button class="lang-btn active" onclick="setLanguage('ru')" data-lang="ru">РУС</button>
+            <button class="lang-btn" onclick="setLanguage('en')" data-lang="en">ENG</button>
+        </div>
+        <h1 data-i18n="title">Meet Reality</h1>
+        <p class="tagline" data-i18n="tagline">Узнайте, какой процент населения соответствует вашим параметрам</p>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <div class="form-title" data-i18n="selectYourStandards">Выберите свои параметры</div>
+
+            <div id="error" class="error"></div>
+
+            <div class="filters">
+                <!-- Sex -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="sex">Пол</label>
+                    <div class="toggle-switches">
+                        <div class="toggle">
+                            <div class="switch" id="sexSwitch" onclick="toggleSex()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="sexLabel" data-i18n="male">Мужчина</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="age">Возраст</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="ageFill"></div>
+                            </div>
+                            <input type="range" id="ageMin" class="slider-input" min="18" max="75" value="28" oninput="updateAgeSlider()">
+                            <input type="range" id="ageMax" class="slider-input" min="18" max="75" value="35" oninput="updateAgeSlider()">
+                        </div>
+                        <div class="slider-value" id="ageValue">28 - 35</div>
+                    </div>
+                </div>
+
+                <!-- Salary -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="salary">Зарплата</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="salaryFill"></div>
+                            </div>
+                            <input type="range" id="salaryMin" class="slider-input" min="30000" max="1000000" value="50000" step="1000" oninput="updateSalarySlider()">
+                            <input type="range" id="salaryMax" class="slider-input" min="30000" max="1000000" value="100000" step="1000" oninput="updateSalarySlider()">
+                        </div>
+                        <div class="slider-value" id="salaryValue">RUB50,000 - RUB100,000</div>
+                    </div>
+                </div>
+
+                <!-- Height -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="height">Рост (см)</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="heightFill"></div>
+                            </div>
+                            <input type="range" id="heightMin" class="slider-input" min="150" max="220" value="172" oninput="updateHeightSlider()">
+                            <input type="range" id="heightMax" class="slider-input" min="150" max="220" value="180" oninput="updateHeightSlider()">
+                        </div>
+                        <div class="slider-value" id="heightValue">172 см - 180 см</div>
+                    </div>
+                </div>
+
+                <!-- Weight -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="weight">Вес</label>
+                    <div class="toggle-switches">
+                        <div class="toggle">
+                            <div class="switch" id="weightSwitch" onclick="toggleWeight()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="weightLabel" data-i18n="normal">Нормальный</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="additional">Дополнительно</label>
+                    <div class="toggle-switches" style="flex-direction: column;">
+                        <div class="toggle">
+                            <div class="switch" id="marriedSwitch" onclick="toggleMarried()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="marriedLabel" data-i18n="married">Женат/Замужем</label>
+                        </div>
+                        <div class="toggle">
+                            <div class="switch" id="hasKidsSwitch" onclick="toggleHasKids()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="hasKidsLabel" data-i18n="hasKids">Есть дети</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-area">
+                <button class="btn-primary" onclick="calculate()" data-i18n="letsFindOut">Рассчитать</button>
+                <br>
+                <button class="btn-secondary" onclick="reset()" data-i18n="reset">Сброс</button>
+                <br>
+                <button class="btn-primary" onclick="window.location.href='index.html'">Back</button>
+        </div>
+            </div>
+
+            <div id="results" class="results">
+                <div class="results-label" data-i18n="matchPercentage">Процент совпадений</div>
+                <div style="display: flex; align-items: baseline; justify-content: center;">
+                    <div class="percentage-value" id="percentage">0</div>
+                    <div class="percentage-sign">%</div>
+                </div>
+                <div class="results-detail" id="resultsDetail">
+                    <span data-i18n="matching">Совпадающие записи:</span> <strong id="matchCount">0</strong> <span data-i18n="of">из</span> <strong id="totalCount">0</strong>
+                </div>
+            </div>
+
+            <div class="ad-space">
+                <span data-i18n="adPlaceholder">Место для объявлений</span>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7925278724142761" crossorigin="anonymous"></script>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p data-i18n="footerText">© 2026 Meet Reality. Демографические данные в целях демонстрации.</p>
+    </div>
+
+    <script>
+        let data = null;
+        let lang = 'ru';
+
+        const i18n = {
+            ru: {
+                title: 'Meet Reality',
+                tagline: 'Узнайте, какой процент населения соответствует вашим параметрам',
+                selectYourStandards: 'Выберите свои параметры',
+                sex: 'Пол',
+                male: 'Мужчина',
+                female: 'Женщина',
+                age: 'Возраст',
+                salary: 'Зарплата',
+                height: 'Рост (см)',
+                weight: 'Вес',
+                normal: 'Нормальный',
+                overweight: 'Избыточный вес',
+                additional: 'Дополнительно',
+                married: 'Женат/Замужем',
+                hasKids: 'Есть дети',
+                letsFindOut: 'Рассчитать',
+                reset: 'Сброс',
+                matchPercentage: 'Процент совпадений',
+                matching: 'Совпадающие записи:',
+                of: 'из',
+                adPlaceholder: 'Место для объявлений',
+                footerText: '© 2026 Meet Reality. Демографические данные в целях демонстрации.',
+                currencyPrefix: 'RUB',
+                heightUnit: 'см'
+            },
+            en: {
+                title: 'Meet Reality',
+                tagline: 'Discover what percentage of the population matches your demographics',
+                selectYourStandards: 'Check Your Standards',
+                sex: 'Sex',
+                male: 'Male',
+                female: 'Female',
+                age: 'Age Range',
+                salary: 'Salary',
+                height: 'Height (cm)',
+                weight: 'Weight',
+                normal: 'Normal',
+                overweight: 'Overweight',
+                additional: 'Additional',
+                married: 'Married',
+                hasKids: 'Has Kids',
+                letsFindOut: 'Find Out',
+                reset: 'Reset',
+                matchPercentage: 'Match Percentage',
+                matching: 'Matching records:',
+                of: 'out of',
+                adPlaceholder: 'Ad Space',
+                footerText: '© 2026 Meet Reality. Sample demographic data for demonstration purposes.',
+                currencyPrefix: '$',
+                heightUnit: 'cm'
+            }
+        };
+
+        function t(key) {
+            return i18n[lang][key] || key;
+        }
+
+        function setLanguage(newLang) {
+            lang = newLang;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.getAttribute('data-i18n'));
+            });
+            document.getElementById('sexLabel').textContent = document.getElementById('sexSwitch').classList.contains('active') ? t('female') : t('male');
+            document.getElementById('weightLabel').textContent = document.getElementById('weightSwitch').classList.contains('active') ? t('overweight') : t('normal');
+            updateAgeSlider();
+            updateSalarySlider();
+            updateHeightSlider();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        async function loadData() {
+            try {
+                const res = await fetch('data.json');
+                data = await res.json();
+            } catch (e) {
+                showError('Could not load data');
+            }
+        }
+
+        function toggleSex() {
+            document.getElementById('sexSwitch').classList.toggle('active');
+            document.getElementById('sexLabel').textContent = document.getElementById('sexSwitch').classList.contains('active') ? t('female') : t('male');
+        }
+
+        function toggleWeight() {
+            document.getElementById('weightSwitch').classList.toggle('active');
+            document.getElementById('weightLabel').textContent = document.getElementById('weightSwitch').classList.contains('active') ? t('overweight') : t('normal');
+        }
+
+        function toggleMarried() {
+            document.getElementById('marriedSwitch').classList.toggle('active');
+        }
+
+        function toggleHasKids() {
+            document.getElementById('hasKidsSwitch').classList.toggle('active');
+        }
+
+        function updateSliderFill(minId, maxId, fillId, min, max) {
+            const minVal = parseInt(document.getElementById(minId).value);
+            const maxVal = parseInt(document.getElementById(maxId).value);
+            if (minVal > maxVal) {
+                [document.getElementById(minId).value, document.getElementById(maxId).value] = [maxVal, minVal];
+                return;
+            }
+            const percent1 = ((minVal - min) / (max - min)) * 100;
+            const percent2 = ((maxVal - min) / (max - min)) * 100;
+            document.getElementById(fillId).style.left = percent1 + '%';
+            document.getElementById(fillId).style.right = (100 - percent2) + '%';
+        }
+
+        function updateAgeSlider() {
+            updateSliderFill('ageMin', 'ageMax', 'ageFill', 18, 75);
+            const min = parseInt(document.getElementById('ageMin').value);
+            const max = parseInt(document.getElementById('ageMax').value);
+            document.getElementById('ageValue').textContent = min + ' - ' + max;
+        }
+
+        function updateSalarySlider() {
+            updateSliderFill('salaryMin', 'salaryMax', 'salaryFill', 30000, 1000000);
+            const min = parseInt(document.getElementById('salaryMin').value);
+            const max = parseInt(document.getElementById('salaryMax').value);
+            const prefix = t('currencyPrefix');
+            document.getElementById('salaryValue').textContent = prefix + min.toLocaleString() + ' - ' + prefix + max.toLocaleString();
+        }
+
+        function updateHeightSlider() {
+            updateSliderFill('heightMin', 'heightMax', 'heightFill', 150, 220);
+            const min = parseInt(document.getElementById('heightMin').value);
+            const max = parseInt(document.getElementById('heightMax').value);
+            const unit = t('heightUnit');
+            document.getElementById('heightValue').textContent = min + ' ' + unit + ' - ' + max + ' ' + unit;
+        }
+
+        function calculate() {
+            if (!data) return showError('Data not loaded');
+            const sex = document.getElementById('sexSwitch').classList.contains('active') ? 'F' : 'M';
+            const ageMin = parseInt(document.getElementById('ageMin').value);
+            const ageMax = parseInt(document.getElementById('ageMax').value);
+            const salaryMin = parseInt(document.getElementById('salaryMin').value);
+            const salaryMax = parseInt(document.getElementById('salaryMax').value);
+            const heightMin = parseInt(document.getElementById('heightMin').value);
+            const heightMax = parseInt(document.getElementById('heightMax').value);
+            const weight = document.getElementById('weightSwitch').classList.contains('active') ? 'overweight' : 'normal';
+            const married = document.getElementById('marriedSwitch').classList.contains('active');
+            const hasKids = document.getElementById('hasKidsSwitch').classList.contains('active');
+
+            let matches = 0;
+            let totalOfSex = 0;
+
+            // First pass: count total people of selected sex
+            for (let record of data.records) {
+                if (record.sex === sex) {
+                    totalOfSex += record.count;
+                }
+            }
+
+            // Second pass: count matches
+            for (let record of data.records) {
+                if (record.sex !== sex) continue;
+                const age = getAgeMid(record.age);
+                if (age < ageMin || age > ageMax) continue;
+                const height = getHeightAvg(record.height);
+                if (height < heightMin - 15 || height > heightMax + 15) continue;
+                const salary = getSalaryAvg(record.salary);
+                if (salary < salaryMin || salary > salaryMax) continue;
+                if (record.weight !== weight) continue;
+                if (married && record.maritalStatus !== 'married') continue;
+                if (hasKids && !record.hasKids) continue;
+                matches += record.count;
+            }
+
+            const percent = ((matches / totalOfSex) * 100).toFixed(2);
+            const sexLabel = sex === 'M' ? t('male') : t('female');
+            document.getElementById('percentage').textContent = percent;
+            document.getElementById('matchCount').textContent = matches.toLocaleString();
+            document.getElementById('totalCount').textContent = totalOfSex.toLocaleString();
+            document.getElementById('resultsDetail').textContent = lang === 'ru' 
+                ? `Из всех ${sexLabel.toLowerCase()} в России, ${percent}% соответствуют вашим критериям.` 
+                : `Out of all ${sexLabel.toLowerCase()} in Russia, ${percent}% match your criteria.`;
+            document.getElementById('results').classList.add('show');
+            document.getElementById('error').classList.remove('show');
+        }
+
+        function getAgeMid(bracket) {
+            const ranges = {
+                '18-25': 21.5, '26-35': 30.5, '36-45': 40.5,
+                '46-55': 50.5, '56-65': 60.5, '65+': 72
+            };
+            return ranges[bracket] || 50;
+        }
+
+        function getSalaryAvg(category) {
+            const salaries = { 'low': 40000, 'medium': 75000, 'high': 200000 };
+            return salaries[category] || 75000;
+        }
+
+        function getHeightAvg(category) {
+            const heights = { 'short': 160, 'average': 175, 'tall': 190 };
+            return heights[category] || 175;
+        }
+
+        function reset() {
+            document.getElementById('ageMin').value = '28';
+            document.getElementById('ageMax').value = '35';
+            document.getElementById('salaryMin').value = '50000';
+            document.getElementById('salaryMax').value = '100000';
+            document.getElementById('heightMin').value = '172';
+            document.getElementById('heightMax').value = '180';
+            document.getElementById('sexSwitch').classList.remove('active');
+            document.getElementById('weightSwitch').classList.remove('active');
+            document.getElementById('marriedSwitch').classList.remove('active');
+            document.getElementById('hasKidsSwitch').classList.remove('active');
+            document.getElementById('sexLabel').textContent = t('male');
+            document.getElementById('weightLabel').textContent = t('normal');
+            updateAgeSlider();
+            updateSalarySlider();
+            updateHeightSlider();
+            document.getElementById('results').classList.remove('show');
+        }
+
+        function showError(msg) {
+            document.getElementById('error').textContent = msg;
+            document.getElementById('error').classList.add('show');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setLanguage('ru');
+        });
+    </script>
+</body>
+</html>
