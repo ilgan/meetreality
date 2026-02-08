@@ -1,0 +1,65 @@
+{
+  "source": "https://www.heightpercentile.com/height-statistics/",
+  "country_code": "US",
+  "name": "United States",
+  "population": 258000000,
+  "sex": {
+    "male": 127500000,
+    "female": 130500000
+  },
+
+  "height_distribution": {
+    "female": {
+      "under_5_0": {
+        "label": "Under 5'0\"",
+        "count_per_10k": 830
+      },
+      "5_0_to_5_3": {
+        "label": "5'0\" - 5'3\"",
+        "count_per_10k": 3560
+      },
+      "5_4_to_5_7": {
+        "label": "5'4\" - 5'7\"",
+        "count_per_10k": 4780
+      },
+      "5_8_to_5_11": {
+        "label": "5'8\" - 5'11\"",
+        "count_per_10k": 810
+      },
+      "6_0_to_6_3": {
+        "label": "6'0\" - 6'3\"",
+        "count_per_10k": 20
+      },
+      "over_6_3": {
+        "label": "Over 6'3\"",
+        "count_per_10k": 0
+      }
+    },
+    "male": {
+      "under_5_0": {
+        "label": "Under 5'0\"",
+        "count_per_10k": 20
+      },
+      "5_0_to_5_3": {
+        "label": "5'0\" - 5'3\"",
+        "count_per_10k": 290
+      },
+      "5_4_to_5_7": {
+        "label": "5'4\" - 5'7\"",
+        "count_per_10k": 2660
+      },
+      "5_8_to_5_11": {
+        "label": "5'8\" - 5'11\"",
+        "count_per_10k": 4910
+      },
+      "6_0_to_6_3": {
+        "label": "6'0\" - 6'3\"",
+        "count_per_10k": 1960
+      },
+      "over_6_3": {
+        "label": "Over 6'3\"",
+        "count_per_10k": 160
+      }
+    }
+  }
+}
