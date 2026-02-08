@@ -9,11 +9,11 @@
 <body>
     <div class="header">
         <div class="lang-toggle">
-            <button class="lang-btn active" onclick="setLanguage('ru')" data-lang="ru">РУС</button>
-            <button class="lang-btn" onclick="setLanguage('en')" data-lang="en">ENG</button>
+            <button class="lang-btn" onclick="setLanguage('ru')" data-lang="ru">РУС</button>
+            <button class="lang-btn active" onclick="setLanguage('en')" data-lang="en">ENG</button>
         </div>
-        <h1>Meet Reality</h1>
-        <p class="tagline">Discover your tools</p>
+        <h1 data-i18n="title">Meet Reality</h1>
+        <p class="tagline" data-i18n="tagline">Discover your tools</p>
     </div>
 
     <div class="main">
@@ -23,6 +23,21 @@
                 <button class="btn-portal" onclick="window.location.href='html/dating_tips.html'">How Realistic Are Your Dating Standard</button>
                 <button class="btn-portal" onclick="window.location.href='html/dating_apps_links.html'">Dating Apps</button>
             </div>
+
+            <div class="ad-space">
+                <span data-i18n="adPlaceholder">Ad Space</span>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7925278724142761" crossorigin="anonymous"></script>
+                <!-- Replace data-ad-slot with your actual Ad Unit ID -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7925278724142761"
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
     </div>
 
@@ -31,16 +46,18 @@
     </div>
 
     <script>
-        let lang = 'ru';
+        let lang = 'en';
 
         const i18n = {
             ru: {
                 title: 'Meet Reality',
-                tagline: 'Откройте для себя свои инструменты'
+                tagline: 'Откройте для себя свои инструменты',
+                adPlaceholder: 'Место для объявлений'
             },
             en: {
                 title: 'Meet Reality',
-                tagline: 'Discover your tools'
+                tagline: 'Discover your tools',
+                adPlaceholder: 'Ad Space'
             }
         };
 
@@ -50,15 +67,16 @@
 
         function setLanguage(newLang) {
             lang = newLang;
-            document.querySelector('h1').textContent = t('title');
-            document.querySelector('.tagline').textContent = t('tagline');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.getAttribute('data-i18n'));
+            });
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            setLanguage('ru');
+            setLanguage('en');
         });
     </script>
 </body>
