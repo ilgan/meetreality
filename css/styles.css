@@ -20,7 +20,7 @@ body {
 
 .header {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.5) 0%, rgba(118, 75, 162, 0.5) 100%), 
-                url('Gemini_Generated_Image_8zs6x68zs6x68zs6.png') center/contain no-repeat;
+                url('../Gemini_Generated_Image_8zs6x68zs6x68zs6.png') center/contain no-repeat;
     color: white;
     padding: 80px 20px;
     text-align: center;
@@ -298,6 +298,9 @@ input[type="checkbox"] {
     margin: 0 10px 15px 10px;
     transition: all 0.2s;
     min-width: 200px;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
 }
 
 .btn-primary:hover {
@@ -340,7 +343,7 @@ input[type="checkbox"] {
     color: var(--text-light);
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    margin-bottom: 15px;
+    margin-bottom: 0;
     font-weight: 600;
 }
 
@@ -349,7 +352,7 @@ input[type="checkbox"] {
     font-weight: 800;
     color: var(--primary);
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 0;
 }
 
 .percentage-sign {
