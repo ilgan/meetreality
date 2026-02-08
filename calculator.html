@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Reality - Population Demographics Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+
+    </style>
+</head>
+<body>
+    <div class="header">
+
+        <div class="lang-toggle">
+            <button class="lang-btn active" onclick="setLanguage('ru')" data-lang="ru">РУС</button>
+            <button class="lang-btn" onclick="setLanguage('en')" data-lang="en">ENG</button>
+        </div>
+        <h1 data-i18n="title">Meet Reality</h1>
+        <p class="tagline" data-i18n="tagline">Узнайте, какой процент населения США соответствует вашим параметрам</p>
+    </div>
+
+    <div class="main">
+        <div class="container">
+            <div class="form-title" data-i18n="selectYourStandards">Выберите свои параметры</div>
+
+            <div id="error" class="error"></div>
+
+            <div class="filters">
+                <!-- Sex -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="sex">Пол</label>
+                    <div class="toggle-switches">
+                        <div class="toggle">
+                            <div class="switch" id="sexSwitch" onclick="toggleSex()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="sexLabel" data-i18n="male">Мужчина</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="age">Возраст</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="ageFill"></div>
+                            </div>
+                            <input type="range" id="ageMin" class="slider-input" min="18" max="65" value="28" oninput="updateAgeSlider()">
+                            <input type="range" id="ageMax" class="slider-input" min="18" max="65" value="35" oninput="updateAgeSlider()">
+                        </div>
+                        <div class="slider-value" id="ageValue">28 - 35</div>
+                    </div>
+                </div>
+
+                <!-- Salary -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="salary">Зарплата</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="salaryFill"></div>
+                            </div>
+                            <input type="range" id="salaryMin" class="slider-input" min="30000" max="500000" value="50000" oninput="updateSalarySlider()">
+                            <input type="range" id="salaryMax" class="slider-input" min="30000" max="500000" value="100000" oninput="updateSalarySlider()">
+                        </div>
+                        <div class="slider-value" id="salaryValue">$50,000 - $100,000</div>
+                    </div>
+                </div>
+
+                <!-- Height -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="height">Рост (см)</label>
+                    <div class="slider-group">
+                        <div class="slider-wrapper">
+                            <div class="slider-base">
+                                <div class="slider-fill" id="heightFill"></div>
+                            </div>
+                            <input type="range" id="heightMin" class="slider-input" min="150" max="191" value="172" oninput="updateHeightSlider()">
+                            <input type="range" id="heightMax" class="slider-input" min="150" max="191" value="180" oninput="updateHeightSlider()">
+                        </div>
+                        <div class="slider-value" id="heightValue">172 см - 180 см</div>
+                    </div>
+                </div>
+
+                <!-- Weight -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="weight">Вес</label>
+                    <div class="toggle-switches">
+                        <div class="toggle">
+                            <div class="switch" id="weightSwitch" onclick="toggleWeight()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="weightLabel" data-i18n="normal">Нормальный</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional -->
+                <div class="filter-group">
+                    <label class="filter-label" data-i18n="additional">Дополнительно</label>
+                    <div class="toggle-switches">
+                        <div class="toggle">
+                            <div class="switch" id="marriedSwitch" onclick="toggleMarried()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="marriedLabel" data-i18n="married">Женат/Замужем</label>
+                        </div>
+                        <div class="toggle">
+                            <div class="switch" id="hasKidsSwitch" onclick="toggleHasKids()">
+                                <div class="switch-dot"></div>
+                            </div>
+                            <label id="hasKidsLabel" data-i18n="hasKids">Есть дети</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-area">
+                <button class="btn-primary" onclick="calculate()" data-i18n="letsFindOut">Рассчитать</button>
+                <br>
+                <button class="btn-secondary" onclick="reset()" data-i18n="reset">Сброс</button>
+                <br>
+                <button class="btn-primary" onclick="window.location.href='index.html'">Back</button>
+        </div>
+            </div>
+
+            <div id="results" class="results">
+                <div class="results-label" data-i18n="matchPercentage">Процент совпадений</div>
+                <div style="display: flex; align-items: baseline; justify-content: center;">
+                    <div class="percentage-value" id="percentage">0</div>
+                    <div class="percentage-sign">%</div>
+                </div>
+                <div class="results-detail" id="resultsDetail">
+                    <span data-i18n="matching">Совпадающие записи:</span> <strong id="matchCount">0</strong> <span data-i18n="of">из</span> <strong id="totalCount">0</strong>
+                </div>
+            </div>
+
+            <div class="ad-space">
+                <span data-i18n="adPlaceholder">Место для объявлений</span>
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7925278724142761" crossorigin="anonymous"></script>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p data-i18n="footerText">© 2026 Meet Reality. Демографические данные в целях демонстрации.</p>
+    </div>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
