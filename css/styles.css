@@ -20,7 +20,7 @@ body {
 
 .header {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.5) 0%, rgba(118, 75, 162, 0.5) 100%), 
-                url('Gemini_Generated_Image_8zs6x68zs6x68zs6.png') center/contain no-repeat;
+                url('../Gemini_Generated_Image_8zs6x68zs6x68zs6.png') center/contain no-repeat;
     color: white;
     padding: 80px 20px;
     text-align: center;

@@ -77,9 +77,9 @@ function setLanguage(newLang) {
 
 async function loadData() {
     try {
-        const incomeRes = await fetch('us_demographics_income.json');
+        const incomeRes = await fetch('../data/us_demographics_income.json');
         const incomeData = await incomeRes.json();
-        const heightRes = await fetch('us_demographics_height.json');
+        const heightRes = await fetch('../data/us_demographics_height.json');
         const heightData = await heightRes.json();
 
         data = {
